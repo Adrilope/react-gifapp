@@ -1,8 +1,7 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 
-export const AddCategory = ({ setCat }) => {
-
+export const AddCategory = ({ onNewCategory }) => {
     const [inputValue, setinputValue] = useState('')
 
     const handleInputChange = (e) => {
@@ -11,16 +10,19 @@ export const AddCategory = ({ setCat }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()  
+
         if (inputValue.trim().length > 2) {
-            setCat((cat) => [inputValue, ...cat])
+            onNewCategory(inputValue.trim())
+            setinputValue('')
         }
-        setinputValue('')
     }
 
 
     return (
         <form onSubmit={ handleSubmit }>
+            <p>{inputValue}</p>
             <input 
+                placeholder='Search gifs'
                 type="text"
                 value={ inputValue }
                 onChange={ handleInputChange }
@@ -31,5 +33,5 @@ export const AddCategory = ({ setCat }) => {
 
 
 AddCategory.propTypes = {
-    setCat : PropTypes.func.isRequired
+    onNewCategory : PropTypes.func.isRequired
 }

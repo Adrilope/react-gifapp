@@ -3,33 +3,30 @@ import { AddCategory } from "./components/AddCategory"
 import { GifGrid } from "./components/GifGrid"
 
 
-const GifExpertApp = () => {
+const GifExpertApp = ({ defaultCategories = [] }) => {
+    const [categories, setCategories] = useState(defaultCategories)
 
-    const [categories, setCategories] = useState(['Bad Bunny'])
 
-    // const handleAdd = () => {
-    //     // setCategories([...categories, 'Nueva Categoria'])
+    const handleAdd = (category) => {
+        if (categories.includes(category)) return 
 
-    //     // callback con param el estado anterior y return del nuevo
-    //     setCategories(cats => [...cats, 'Nueva Categoria'])
-    // }
+        setCategories(cats => [category, ...cats])
+    }
 
 
     return (
         <>
             <h2>Gif Expert App</h2>
-            <AddCategory setCat={setCategories} />
-            <hr/>  
+            <AddCategory onNewCategory={(value) => handleAdd(value)} />
+            <hr/>
 
-            <ol>
-                {categories.map(category => 
-                    //las listas deben llevar la prop key
-                    <GifGrid 
-                        category={category}
-                        key={category} 
-                    />
-                )}
-            </ol>
+            {categories.map(category => 
+                //las listas deben llevar la prop key
+                <GifGrid
+                    category={category}
+                    key={category} 
+                />
+            )}
         </>
     )
 }
